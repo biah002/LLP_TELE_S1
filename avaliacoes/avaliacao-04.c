@@ -10,34 +10,35 @@ typedef struct {
     char Reprovado_SN;
 } Aluno;
 
-void verifica_aprovacao(Aluno *alunos, int tamanho) {
-    for (int i = 0; i < tamanho; i++) {
-        if (alunos[i].Faltas >= 20) {
-            alunos[i].Reprovado_SN = 'S';
-        } else {
-            alunos[i].Media = (alunos[i].N1 + alunos[i].N2) / 2.0;
-        }
+// Função para verificar a aprovação de um aluno
+void verifica_aprovacao(Aluno *aluno) {
+    // Verificar se o aluno está reprovado por falta
+    if (aluno->Faltas >= 20) {
+        aluno->Reprovado_SN = 'S';
     }
+
+    // Calcular a média
+    aluno->Media = (aluno->N1 + aluno->N2) / 2;
 }
 
-void mostra_aprovacao(Aluno *alunos, int tamanho) {
-    for (int i = 0; i < tamanho; i++) {
-        printf("Aluno %d:\n", i + 1);
-        printf("Matrícula: %d\n", alunos[i].matricula);
-        printf("Nome: %s\n", alunos[i].nome);
-        printf("N1: %.2f\n", alunos[i].N1);
-        printf("N2: %.2f\n", alunos[i].N2);
-        printf("Faltas: %d\n", alunos[i].Faltas);
-        printf("Média: %.2f\n", alunos[i].Media);
+// Função para mostrar a aprovação de um aluno
+void mostra_aprovacao(Aluno aluno) {
+    printf("Aluno:\n");
+    printf("Matrícula: %d\n", aluno.matricula);
+    printf("Nome: %s\n", aluno.nome);
+    printf("N1: %.2f\n", aluno.N1);
+    printf("N2: %.2f\n", aluno.N2);
+    printf("Faltas: %d\n", aluno.Faltas);
 
-        if (alunos[i].Reprovado_SN == 'S') {
-            printf("REPROVADO POR FALTA\n\n");
-        } else if (alunos[i].Media < 6.0) {
-            printf("REPROVADO POR MEDIA\n\n");
-        } else {
-            printf("APROVADO\n\n");
-        }
+    // Verificar a situação do aluno
+    if (aluno.Reprovado_SN == 'S') {
+        printf("REPROVADO POR FALTA\n");
+    } else if (aluno.Media < 6.0) {
+        printf("REPROVADO POR MEDIA\n");
+    } else {
+        printf("APROVADO\n");
     }
+    printf("\n");
 }
 
 int main() {
@@ -49,8 +50,15 @@ int main() {
         {5, "Luiz", 8.0, 7.0, 0.0, 4,' '}
     };
 
-    verifica_aprovacao(alunos, 5);
-    mostra_aprovacao(alunos, 5);
+    // Verificar a aprovação de cada aluno
+    for (int i = 0; i < 5; i++) {
+        verifica_aprovacao(&alunos[i]);
+    }
+
+    // Mostrar a aprovação de cada aluno
+    for (int i = 0; i < 5; i++) {
+        mostra_aprovacao(alunos[i]);
+    }
 
     return 0;
 }
